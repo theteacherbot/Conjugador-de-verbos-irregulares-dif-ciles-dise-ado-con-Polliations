@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Irregulares del español</title>
+    <style>
+/* Variables de Diseño */
+:root {
+    --bg-color: #f4f7f6;
+    --card-bg: #ffffff;
+    --text-main: #2c3e50;
+    --text-muted: #7f8c8d;
+    --accent-color: #3498db;
+    --irregular-color: #e74c3c;
+    --success-color: #27ae60;
+    --shadow: 0 10px 30px rgba(0,0,0,0.1);
+    --border-radius: 16px;
+    --transition-speed: 0.6s;
+}
+
+[data-theme="dark"] {
+    --bg-color: #1a1a2e;
+    --card-bg: #16213e;
+    --text-main: #e9ecef;
+    --text-muted: #aab2bd;
+    --accent-color: #4cc9f0;
+    --shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.6;
+    transition: background-color 0.3s ease;
+    padding: 20px;
+    background-image: url('https://enter.pollinations.ai/api/generate/image/minimalist%20soft%20academic%20pattern%20background%20texture?key=sk_4lzdwTdKcXEK2viVNENsab3FsCFO5i7W&model=zimage');
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+header {
+    max-width: 1000px;
+    margin: 0 auto 40px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: var(--accent-color);
+}
+
+.controls {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.btn-primary, .btn-secondary {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: transform 0.2s, background 0.2s;
+}
+
+.btn-primary {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.btn-secondary {
+    background-color: var(--text-muted);
+    color: white;
+}
+
+.btn-primary:hover, .btn-secondary:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+
+/* Progreso */
+.progress-container {
+    max-width: 400px;
+    margin: 20px auto;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 10px;
+    background: #ddd;
+    border-radius: 5px;
+    margin-top: 8px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    width: 0%;
+    height: 100%;
+    background: var(--success-color);
+    transition: width 0.4s ease;
+}
+
+/* Grid de Tarjetas */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Flashcard 3D */
+.card-wrapper {
+    perspective: 1000px;
+    height: 400px;
+    cursor: pointer;
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform var(--transition-speed);
+    transform-style: preserve-3d;
+    box-shadow: var(--shadow);
+    border-radius: var(--border-radius);
+}
+
+.card-wrapper.is-flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    border-radius: var(--border-radius);
+    background-color: var(--card-bg);
+}
+
+.card-back {
+    transform: rotateY(180deg);
+    text-align: left;
+    align-items: flex-start;
+}
+
+/* Estilos de Contenido de Tarjeta */
+.badge {
+    background-color: var(--irregular-color);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.verb-title {
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+    color: var(--text-main);
+}
+
+.question {
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+/* Conjugación */
+.conjugation-list {
+    width: 100%;
+    list-style: none;
+    margin-bottom: 20px;
+}
+
+.conjugation-list li {
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: space-between;
+}
+
+.pronoun {
+    color: var(--text-muted);
+    font-weight: bold;
+}
+
+.highlight {
+    color: var(--irregular-color);
+    font-weight: bold;
+}
+
+.note {
+    font-size: 0.85rem;
+    padding: 10px;
+    background: rgba(52, 152, 219, 0.1);
+    border-left: 4px solid var(--accent-color);
+    border-radius: 4px;
+}
+
+footer {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+    
+    h1 {
+        font-size: 1.8rem;
+    }
+}
+    </style>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards: Verbos irregulares de difícil conjugación en español con Pollinations</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Conjugación de verbos irregulares</h1>
+            <p>Domina las conjugaciones más difíciles del español, mediante el uso de estas tarjetas interactivas.</p>
+        </div>
+        <div class="controls">
+            <button id="theme-toggle" class="btn-secondary">Modo Oscuro</button>
+            <button id="flip-all" class="btn-primary">Voltear Todas</button>
+        </div>
+        <div class="progress-container">
+            <span>Progreso: <span id="progress-count">0</span> / 11 revisadas</span>
+            <div class="progress-bar">
+                <div id="progress-fill" class="progress-fill"></div>
+            </div>
+        </div>
+    </header>
+
+    <main id="flashcards-grid" class="grid-container">
+        <!-- Las tarjetas se generan dinámicamente con JS -->
+    </main>
+
+    <footer>
+       <p>&copy; 2026 - Herramienta de Precisión Lingüística</p> 
+            <p style="font-size: 10px; text-align: right;font-weight: bold;">Herramienta diseñada por el profesor Édgar Herrera con tecnología <a href="https://pollinations.ai/">Pollinations.ai</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+    <script>
+const verbs = [
+    {
+        infinitive: "tener",
+        question: "¿Cómo se conjuga en presente?",
+        conjugations: [
+            { p: "yo", v: "tengo", irr: true },
+            { p: "tú", v: "tienes", irr: true },
+            { p: "él/ella", v: "tiene", irr: true },
+            { p: "nosotros", v: "tenemos", irr: false },
+            { p: "ustedes", v: "tienen", irr: true },
+            { p: "ellos", v: "tienen", irr: true }
+        ],
+        note: "Irregularidad mixta: 'g' en 1ª persona y cambio e → ie en el resto (excepto nosotros)."
+    },
+    {
+        infinitive: "venir",
+        question: "¿Cuál es su forma en presente?",
+        conjugations: [
+            { p: "yo", v: "vengo", irr: true },
+            { p: "tú", v: "vienes", irr: true },
+            { p: "él/ella", v: "viene", irr: true },
+            { p: "nosotros", v: "venimos", irr: false },
+            { p: "ustedes", v: "vienen", irr: true },
+            { p: "ellos", v: "vienen", irr: true }
+        ],
+        note: "Similar a 'tener'. Presenta 'g' en la 1ª persona y diptongación e → ie."
+    },
+    {
+        infinitive: "decir",
+        question: "¿Cómo cambia su raíz en presente?",
+        conjugations: [
+            { p: "yo", v: "digo", irr: true },
+            { p: "tú", v: "dices", irr: true },
+            { p: "él/ella", v: "dice", irr: true },
+            { p: "nosotros", v: "decimos", irr: false },
+            { p: "ustedes", v: "dicen", irr: true },
+            { p: "ellos", v: "dicen", irr: true }
+        ],
+        note: "Cambio radical e → i y 1ª persona con 'g'."
+    },
+    {
+        infinitive: "poder",
+        question: "¿Qué ocurre con la 'o' al conjugar?",
+        conjugations: [
+            { p: "yo", v: "puedo", irr: true },
+            { p: "tú", v: "puedes", irr: true },
+            { p: "él/ella", v: "puede", irr: true },
+            { p: "nosotros", v: "podemos", irr: false },
+            { p: "ustedes", v: "pueden", irr: true },
+            { p: "ellos", v: "pueden", irr: true }
+        ],
+        note: "Irregularidad por diptongación: la o → ue en sílaba tónica."
+    },
+    {
+        infinitive: "hacer",
+        question: "¿Cuál es la 1ª persona del singular?",
+        conjugations: [
+            { p: "yo", v: "hago", irr: true },
+            { p: "tú", v: "haces", irr: false },
+            { p: "él/ella", v: "hace", irr: false },
+            { p: "nosotros", v: "hacemos", irr: false },
+            { p: "ustedes", v: "hacen", irr: false },
+            { p: "ellos", v: "hacen", irr: false }
+        ],
+        note: "Solo es irregular en la 1ª persona (yo hago)."
+    },
+    {
+        infinitive: "poner",
+        question: "¿Cómo se dice 'yo' en presente?",
+        conjugations: [
+            { p: "yo", v: "pongo", irr: true },
+            { p: "tú", v: "pones", irr: false },
+            { p: "él/ella", v: "pone", irr: false },
+            { p: "nosotros", v: "ponemos", irr: false },
+            { p: "ustedes", v: "ponen", irr: false },
+            { p: "ellos", v: "ponen", irr: false }
+        ],
+        note: "Irregularidad de 'g' solo en la 1ª persona del singular."
+    },
+    {
+        infinitive: "salir",
+        question: "¿Presenta irregularidad en todas sus formas?",
+        conjugations: [
+            { p: "yo", v: "salgo", irr: true },
+            { p: "tú", v: "sales", irr: false },
+            { p: "él/ella", v: "sale", irr: false },
+            { p: "nosotros", v: "salimos", irr: false },
+            { p: "ustedes", v: "salen", irr: false },
+            { p: "ellos", v: "salen", irr: false }
+        ],
+        note: "Verbo con 1ª persona irregular en 'g'. El resto es regular."
+    },
+
+    {
+        infinitive: "asir",
+        question: "¿Presenta irregularidad en todas sus formas?",
+        conjugations: [
+            { p: "yo", v: "asgo", irr: true },
+            { p: "tú", v: "ases", irr: false },
+            { p: "él/ella", v: "ase", irr: false },
+            { p: "nosotros", v: "asimos", irr: false },
+            { p: "ustedes", v: "asen", irr: false },
+            { p: "ellos", v: "asen", irr: false }
+        ],
+        note: "Verbo con 1ª persona irregular en 'g'. El resto es regular."
+    },
+
+    {
+        infinitive: "saber",
+        question: "¿Cuál es su forma especial en 'yo'?",
+        conjugations: [
+            { p: "yo", v: "sé", irr: true },
+            { p: "tú", v: "sabes", irr: false },
+            { p: "él/ella", v: "sabe", irr: false },
+            { p: "nosotros", v: "sabemos", irr: false },
+            { p: "ustedes", v: "saben", irr: false },
+            { p: "ellos", v: "saben", irr: false }
+        ],
+        note: "La 1ª persona es totalmente irregular (sé) y lleva tilde diacrítica."
+    },
+    {
+        infinitive: "querer",
+        question: "¿Cómo cambia la 'e' radical?",
+        conjugations: [
+            { p: "yo", v: "quiero", irr: true },
+            { p: "tú", v: "quieres", irr: true },
+            { p: "él/ella", v: "quiere", irr: true },
+            { p: "nosotros", v: "queremos", irr: false },
+            { p: "ustedes", v: "quieren", irr: true },
+            { p: "ellos", v: "quieren", irr: true }
+        ],
+        note: "Diptongación e → ie en todas las personas menos nosotros."
+    },
+    {
+        infinitive: "traer",
+        question: "¿Qué letra aparece en la 1ª persona?",
+        conjugations: [
+            { p: "yo", v: "traigo", irr: true },
+            { p: "tú", v: "traes", irr: false },
+            { p: "él/ella", v: "trae", irr: false },
+            { p: "nosotros", v: "traemos", irr: false },
+            { p: "ustedes", v: "traen", irr: false },
+            { p: "ellos", v: "traen", irr: false }
+        ],
+        note: "Aparece el grupo 'ig' en la 1ª persona del singular."
+    }
+];
+
+const grid = document.getElementById('flashcards-grid');
+const flipAllBtn = document.getElementById('flip-all');
+const themeToggle = document.getElementById('theme-toggle');
+const progressCount = document.getElementById('progress-count');
+const progressFill = document.getElementById('progress-fill');
+
+let flippedCount = new Set();
+let allFlipped = false;
+
+// Inicializar Tarjetas
+function createCards() {
+    verbs.forEach((verb, index) => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'card-wrapper';
+        wrapper.dataset.index = index;
+
+        const inner = document.createElement('div');
+        inner.className = 'card-inner';
+
+        // Lado Frontal
+        const front = document.createElement('div');
+        front.className = 'card-front';
+        front.innerHTML = `
+            <span class="badge">Verbo Irregular Crítico</span>
+            <h2 class="verb-title">${verb.infinitive}</h2>
+            <p class="question">${verb.question}</p>
+            <div style="margin-top: 20px; font-size: 0.8rem; opacity: 0.6;">Haz clic para voltear</div>
+        `;
+
+        // Lado Posterior
+        const back = document.createElement('div');
+        back.className = 'card-back';
+        
+        let conjugationsHtml = '<ul class="conjugation-list">';
+        verb.conjugations.forEach(c => {
+            conjugationsHtml += `
+                <li>
+                    <span class="pronoun">${c.p}</span>
+                    <span class="verb-form ${c.irr ? 'highlight' : ''}">${c.v}</span>
+                </li>
+            `;
+        });
+        conjugationsHtml += '</ul>';
+
+        back.innerHTML = `
+            <h3 style="margin-bottom: 10px; color: var(--accent-color)">${verb.infinitive.toUpperCase()}</h3>
+            ${conjugationsHtml}
+            <div class="note"><strong>Nota:</strong> ${verb.note}</div>
+        `;
+
+        inner.appendChild(front);
+        inner.appendChild(back);
+        wrapper.appendChild(inner);
+        
+        // Evento Click
+        wrapper.addEventListener('click', () => {
+            wrapper.classList.toggle('is-flipped');
+            if(wrapper.classList.contains('is-flipped')) {
+                updateProgress(index);
+            }
+        });
+
+        grid.appendChild(wrapper);
+    });
+}
+
+// Control de Progreso
+function updateProgress(index) {
+    flippedCount.add(index);
+    const count = flippedCount.size;
+    progressCount.innerText = count;
+    progressFill.style.width = `${(count / verbs.length) * 100}%`;
+}
+
+// Voltear todas
+flipAllBtn.addEventListener('click', () => {
+    allFlipped = !allFlipped;
+    const cards = document.querySelectorAll('.card-wrapper');
+    cards.forEach((card, index) => {
+        if (allFlipped) {
+            card.classList.add('is-flipped');
+            updateProgress(index);
+        } else {
+            card.classList.remove('is-flipped');
+        }
+    });
+    flipAllBtn.innerText = allFlipped ? "Restaurar Todas" : "Voltear Todas";
+});
+
+// Modo Oscuro
+themeToggle.addEventListener('click', () => {
+    const body = document.body;
+    if (body.getAttribute('data-theme') === 'dark') {
+        body.removeAttribute('data-theme');
+        themeToggle.innerText = "Modo Oscuro";
+    } else {
+        body.setAttribute('data-theme', 'dark');
+        themeToggle.innerText = "Modo Claro";
+    }
+});
+
+// Iniciar aplicación
+createCards();
+    </script>
+</body>
+</html>
